@@ -274,6 +274,15 @@ shinyServer(function(input, output, session) {
     actionButton('runGFC', textOutput('gfc_start_button'))
   })
   
+  
+  ##################################################################################################################################
+  ############### Text to explain
+  output$explainGFCrun <- renderUI({
+    validate(need(the_basename(), "Define the area of interest"))
+    req(input$aoi_type)
+    textOutput('gfc_explanation')
+  })
+  
   ##################################################################################################################################
   ############### GET THE BASENAME
   the_basename <- reactive({
@@ -561,10 +570,18 @@ shinyServer(function(input, output, session) {
   ##################################################################################################################################
   ############### MSPA start button
   output$mspaStartButton <- renderUI({
+    validate(need(the_basename(), "Define the area of interest"))
     req(process())
     actionButton('mspaStartButton', textOutput('mspa_start_button'))
   })
   
+  ##################################################################################################################################
+  ############### Text to explain
+  output$explainMSPArun <- renderUI({
+    validate(need(the_basename(), "Define the area of interest"))
+    req(input$aoi_type)
+    textOutput('mspa_explanation')
+  })
   
   ##################################################################################################################################
   ############### Run MSPA

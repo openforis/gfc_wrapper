@@ -57,8 +57,8 @@ shinyUI(
         hr(),
         br(),
         br(),
-        menuItem(textOutput('source_code',inline=T), icon = icon("file-code-o"),href = "https://github.com/openforis/"),
-        menuItem(textOutput('bug_reports',inline=T), icon = icon("bug")        ,href = "https://github.com/openforis/")
+        menuItem(textOutput('source_code',inline=T), icon = icon("file-code-o"),href = "https://github.com/openforis/gfc_wrapper"),
+        menuItem(textOutput('bug_reports',inline=T), icon = icon("bug")        ,href = "https://github.com/openforis/gfc_wrapper/issues")
       )
     ),
     
@@ -200,6 +200,7 @@ shinyUI(
                           box(title=textOutput('title_process'),width=6,status = "success", solidHeader= TRUE,
                               #uiOutput("ProcessButton"),
                               uiOutput("runGFCButton"),
+                              #uiOutput("explainGFCrun"),
                               tableOutput("display_stats"),
                               plotOutput("display_loss_graph"),
                               uiOutput("ui_download_stats")
@@ -281,6 +282,7 @@ shinyUI(
                           
                           box(title= textOutput('title_mspa'),width=6, status = "success", solidHeader= TRUE,
                               uiOutput("mspaStartButton"),
+                              #uiOutput("explainMSPArun"),
                               plotOutput("display_mspa"),
                               tableOutput("mspa_summary"),
                               uiOutput("ui_download_mspa")
