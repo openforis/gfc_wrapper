@@ -597,7 +597,7 @@ shinyServer(function(input, output, session) {
                               threshold    <- input$threshold
                               
                               time_start   <- Sys.time()
-                              if(!file.exists(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,".tif"))){
+                              if(!file.exists(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif"))){
                               
                                 file.copy(paste0(scriptdir,"MSPA/"),
                                         tmp_dir,
