@@ -641,12 +641,7 @@ shinyServer(function(input, output, session) {
                                         paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_stat.txt"),
                                         overwrite = T)
                               }
-                              
-                              
-                              # system(sprintf("gdal_edit.py -a_srs \"%s\" %s",
-                              #                proj,
-                              #                paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif")
-                              #                ))
+
                               
                               raster(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif"))
                             })
@@ -657,8 +652,14 @@ shinyServer(function(input, output, session) {
   output$display_mspa <- renderPlot({
     req(mspa_res())
     print('Check: Display the map')
+    
+    the_basename <- the_basename()
+    parameters_u <- parameters_u()
+    threshold    <- input$threshold
+    
     mspa_res <- mspa_res()
-    plot(mspa_res, axes = FALSE)
+    if(file.exists(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif"))){
+    plot(mspa_res, axes = FALSE)}else{NULL}
   })
   
   ##################################################################################################################################
@@ -679,7 +680,10 @@ shinyServer(function(input, output, session) {
     threshold    <- input$threshold
     
     time <- readLines(paste0(tmp_dir,"MSPA/output/mspa-process.txt"))
-    res  <- readLines(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_stat.txt"))
+    
+    if(file.exists(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_stat.txt"))){
+      
+      res  <- readLines(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_stat.txt"))
     # info <- res[11:15]
     # table <- data.frame(cbind(str_split_fixed(info," : ",2)[,1],
     #                str_split_fixed(str_split_fixed(info," : ",2)[,2]," ",2)[,1]))
@@ -703,7 +707,7 @@ shinyServer(function(input, output, session) {
                              ))
     names(out) <- c("Class","Proportion")
     
-    out
+    out}else{NULL}
   })
   
   
@@ -711,7 +715,7 @@ shinyServer(function(input, output, session) {
   ##################################################################################################################################
   ############### Button to download the tif file
   output$ui_download_mspa <- renderUI({
-    req(fmask())
+    req(mspa_res())
     #req(input$DisplayMapButton)
     downloadButton('download_mspa_map',
                    label = textOutput('download_mspa_button'))
@@ -720,7 +724,7 @@ shinyServer(function(input, output, session) {
   ##################################################################################################################################
   ############### Button to download the tif file
   output$ui_download_mspa_stat <- renderUI({
-    req(fmask())
+    req(mspa_res())
     #req(input$DisplayMapButton)
     downloadButton('download_mspa_stat',
                    label = textOutput('download_mspa_stat_button'))
