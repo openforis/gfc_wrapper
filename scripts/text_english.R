@@ -28,6 +28,7 @@ output$title_param_mspa  <- reactive({"Parameters"})
 output$download_csv_button    <- reactive({'Download as tabular data (.csv)'})
 output$download_map_button    <- reactive({'Download as GeoTiff data (.tif)'})
 output$download_mspa_button   <- reactive({'Download as GeoTiff data (.tif)'})
+output$download_mspa_stat_button   <- reactive({'Download as tabular data (.txt)'})
 
 output$mspa_start_button      <- reactive({"Run"})
 output$mspa_explanation      <- reactive({"Click run to start generating the fragmentation map"})

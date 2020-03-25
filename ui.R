@@ -285,7 +285,8 @@ shinyUI(
                               #uiOutput("explainMSPArun"),
                               plotOutput("display_mspa"),
                               tableOutput("mspa_summary"),
-                              uiOutput("ui_download_mspa")
+                              uiOutput("ui_download_mspa"),
+                              uiOutput("ui_download_mspa_stat")
                           )
                           
                           # End of Box

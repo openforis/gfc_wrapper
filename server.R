@@ -440,7 +440,7 @@ shinyServer(function(input, output, session) {
     tt[nrow(tt),1] <- 45
     
     codes <- data.frame(cbind(c(30,40,45,50,51),
-                              c("Forest","Non-Forest","Loss","Gain","Gain-Loss")))
+                              c("Non-Forest","Forest","Loss","Gain","Gain-Loss")))
     names(codes) <- c("class","class_name")
     
     ttt <- merge(tt,codes,by.x="class",by.y="class",all.x=T)
@@ -634,7 +634,7 @@ shinyServer(function(input, output, session) {
                               write(process_time,paste0(tmp_dir,"MSPA/output/mspa-process.txt"))
                               
                               file.copy(paste0(tmp_dir,"MSPA/output/input_",parameters_u,".tif"),
-                                        paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,".tif"),
+                                        paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif"),
                                         overwrite = T)
                               
                               file.copy(paste0(tmp_dir,"MSPA/output/input_",parameters_u,"_stat.txt"),
@@ -642,10 +642,11 @@ shinyServer(function(input, output, session) {
                                         overwrite = T)
                               }
                               
-                              system(sprintf("gdal_translate -a_srs \"%s\" %s %s",
-                                             proj,
-                                             paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,".tif"),
-                                             paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif")))
+                              
+                              # system(sprintf("gdal_edit.py -a_srs \"%s\" %s",
+                              #                proj,
+                              #                paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif")
+                              #                ))
                               
                               raster(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif"))
                             })
@@ -679,15 +680,29 @@ shinyServer(function(input, output, session) {
     
     time <- readLines(paste0(tmp_dir,"MSPA/output/mspa-process.txt"))
     res  <- readLines(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_stat.txt"))
-    info <- res[11:15]
-    table <- data.frame(cbind(str_split_fixed(info," : ",2)[,1],
-                   str_split_fixed(str_split_fixed(info," : ",2)[,2]," ",2)[,1]))
-    names(table) <- c("class","pix")
-    pix <- res(raster(paste0(gfc_dir,"gfc_",the_basename,"_",threshold,"_map_clip_pct.tif")))[1]
-    table$area <- as.numeric(table$pix) * pix * pix / 10000
-    table$percent <- table$area/sum(table[1:4,]$area)*100
-    out <- table[,c("class","area","percent")]
-    names(out) <- c("Class","Area (ha)","Weight (%)")
+    # info <- res[11:15]
+    # table <- data.frame(cbind(str_split_fixed(info," : ",2)[,1],
+    #                str_split_fixed(str_split_fixed(info," : ",2)[,2]," ",2)[,1]))
+    # names(table) <- c("class","pix")
+    # pix <- res(raster(paste0(gfc_dir,"gfc_",the_basename,"_",threshold,"_map_clip_pct.tif")))[1]
+    # table$area <- as.numeric(table$pix) * pix * pix / 10000
+    # table$percent <- table$area/sum(table[1:4,]$area)*100
+    # out <- table[,c("class","area","percent")]
+    # names(out) <- c("Class","Area (ha)","Weight (%)")
+    
+    info <- res[20:26]
+    out  <- data.frame(cbind(str_split_fixed(info,": ",2)[,1],
+                             paste0(
+                               round(
+                                 as.numeric(
+                                   str_split_fixed(
+                                     str_split_fixed(info,": ",2)[,2],
+                                     " %",2)[,1]),
+                                 1),
+                               " %")
+                             ))
+    names(out) <- c("Class","Proportion")
+    
     out
   })
   
@@ -703,14 +718,22 @@ shinyServer(function(input, output, session) {
   })
   
   ##################################################################################################################################
+  ############### Button to download the tif file
+  output$ui_download_mspa_stat <- renderUI({
+    req(fmask())
+    #req(input$DisplayMapButton)
+    downloadButton('download_mspa_stat',
+                   label = textOutput('download_mspa_stat_button'))
+  })
+  ##################################################################################################################################
   ############### Enable to download the map (.tif)
-  output$download_mspa_map <- downloadHandler(
+  output$download_mspa_stat <- downloadHandler(
     filename = function() {
-      paste0("mspa_",the_basename(),"_",input$threshold,"_",parameters_u(),".tif")
+      paste0("stats_mspa_",the_basename(),"_",input$threshold,"_",parameters_u(),".txt")
     },
     content  = function(xx) {
-      to_export <- raster(paste0(msp_dir,"mspa_",the_basename(),"_",input$threshold,"_",parameters_u(),"_proj.tif"))
-      writeRaster(to_export, xx)
+      to_export <- readLines(paste0(msp_dir,"mspa_",the_basename(),"_",input$threshold,"_",parameters_u(),"_stat.txt"))
+      writeLines(to_export, xx)
     }
   )
   ##################################################################################################################################
