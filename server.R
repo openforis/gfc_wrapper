@@ -604,8 +604,8 @@ shinyServer(function(input, output, session) {
                               #                tmp_dir
                               #                ))  
                                 
-                                file.copy(paste0(scriptdir,"MSPA/"),
-                                        tmp_dir,
+                                file.copy(paste0(scriptdir,"MSPA/*"),
+                                        tmp_msp,
                                         recursive = T,
                                         overwrite = T)
                                 
