@@ -467,7 +467,8 @@ shinyServer(function(input, output, session) {
     t <- raw_stats()
     tt <- t[t$class < 20 & t$class > 0,]
     tt$year <- 2000+tt$class
-    barplot(area ~ year,tt,xlab = "Year",ylab ="Tree cover loss (Ha)")
+    if(nrow(tt) >0){barplot(area ~ year,tt,xlab = "Year",ylab ="Tree cover loss (Ha)")}else{NULL}
+  
   })
   
   ############### Display the results as map
