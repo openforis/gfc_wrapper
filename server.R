@@ -599,15 +599,19 @@ shinyServer(function(input, output, session) {
                               time_start   <- Sys.time()
                               if(!file.exists(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif"))){
                               
-                              system(sprintf("cp -r -f %s %s",
-                                             paste0(scriptdir,"MSPA/"),
-                                             tmp_dir
-                                             ))  
+                              # system(sprintf("cp -r -f %s %s",
+                              #                paste0(scriptdir,"MSPA/"),
+                              #                tmp_dir
+                              #                ))  
                                 
-                                # file.copy(paste0(scriptdir,"MSPA/"),
-                                #         tmp_dir,
-                                #         recursive = T,
-                                #         overwrite = T)
+                                file.copy(paste0(scriptdir,"MSPA/"),
+                                        tmp_dir,
+                                        recursive = T,
+                                        overwrite = T)
+                                
+                                system(sprintf("chmod -r 755 %s",
+                                               paste0(tmp_dir,"MSPA")
+                                ))
                                 
                               dir.create(paste0(tmp_dir,"MSPA/input/"), showWarnings = F)
                               dir.create(paste0(tmp_dir,"MSPA/output/"),showWarnings = F)
