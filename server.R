@@ -669,7 +669,25 @@ shinyServer(function(input, output, session) {
     
     mspa_res <- mspa_res()
     if(file.exists(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif"))){
-    plot(mspa_res, axes = FALSE)}else{NULL}
+      
+      aoi <- readOGR(make_aoi())
+      (bb    <- extent(aoi))
+      
+      f.proj <- paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif")
+      f.geo <- paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_geo.tif")
+
+      system(sprintf("gdalwarp -t_srs EPSG:4326 -te %s %s %s %s -te_srs EPSG:4326  %s %s -overwrite",
+                     bb@xmin,
+                     bb@ymin,
+                     bb@xmax,
+                     bb@ymax,
+                     f.proj,
+                     f.geo))
+
+      plot(raster(f.geo), axes = FALSE)
+      
+    #plot(mspa_res, axes = FALSE)
+      }else{NULL}
   })
   
   ##################################################################################################################################
