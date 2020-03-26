@@ -750,6 +750,18 @@ shinyServer(function(input, output, session) {
   })
   
   ##################################################################################################################################
+  ############### Enable to download the map (.tif)
+  output$download_mspa_map <- downloadHandler(
+    filename = function() {
+      paste0("mspa_",the_basename(),"_",input$threshold,"_",parameters_u(),".tif")
+    },
+    content  = function(xx) {
+      to_export <- raster(paste0(msp_dir,"mspa_",the_basename(),"_",input$threshold,"_",parameters_u(),"_proj.tif"))
+      writeRaster(to_export, xx)
+    }
+  )
+  
+  ##################################################################################################################################
   ############### Button to download the tif file
   output$ui_download_mspa_stat <- renderUI({
     req(mspa_res())
