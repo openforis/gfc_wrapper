@@ -600,7 +600,7 @@ shinyServer(function(input, output, session) {
                               if(!file.exists(paste0(msp_dir,"mspa_",the_basename,"_",threshold,"_",parameters_u,"_proj.tif"))){
                               
                               system(sprintf("cp -r -f %s %s",
-                                             paste0(scriptdir,"MSPA/*"),
+                                             paste0("scripts/MSPA/*"),
                                              tmp_msp
                                              ))
                                 
