@@ -609,7 +609,7 @@ shinyServer(function(input, output, session) {
                                         recursive = T,
                                         overwrite = T)
                                 
-                                system(sprintf("chmod -r 755 %s",
+                                system(sprintf("chmod 755 %s",
                                                paste0(tmp_dir,"MSPA")
                                 ))
                                 

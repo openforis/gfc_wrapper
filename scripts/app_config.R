@@ -10,15 +10,17 @@ gfc_dir     <- paste0(data_dir,"gfc/")
 aoi_dir     <- paste0(data_dir,"aoi/")
 stt_dir     <- paste0(data_dir,"stat/")
 msp_dir     <- paste0(data_dir,"mspa/")
+tmp_msp     <- paste0(rootdir,"tmp/MSPA/")
 
 dir.create(scriptdir,recursive=T,showWarnings = F)
 dir.create(gfcdwn_dir,recursive=T,showWarnings = F)
-dir.create(data_dir,showWarnings = F)
-dir.create(gfc_dir,showWarnings = F)
-dir.create(aoi_dir,showWarnings = F)
-dir.create(stt_dir,showWarnings = F)
-dir.create(tmp_dir,showWarnings = F)
-dir.create(msp_dir,showWarnings = F)
+dir.create(data_dir,recursive=T,showWarnings = F)
+dir.create(gfc_dir,recursive=T,showWarnings = F)
+dir.create(aoi_dir,recursive=T,showWarnings = F)
+dir.create(stt_dir,recursive=T,showWarnings = F)
+dir.create(tmp_dir,recursive=T,showWarnings = F)
+dir.create(msp_dir,recursive=T,showWarnings = F)
+dir.create(tmp_msp,recursive=T,showWarnings = F)
 
 ####################################################################################################
 #################### load hard-coded parameters
