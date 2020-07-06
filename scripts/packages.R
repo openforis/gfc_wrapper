@@ -12,8 +12,7 @@ packages <- function(x){
 
 ## Packages to download GFC data
 packages(devtools)
-dir.create(normalizePath("~/.R/library"),recursive = T,showWarnings = F)
-install_github('yfinegold/gfcanalysis',subdir=normalizePath("~/.R/library"))
+install_github('azvoleff/gfcanalysis')
 library(gfcanalysis)
 
 ## Packages for geospatial data handling
@@ -29,7 +28,6 @@ packages(shinydashboard)
 packages(shinyFiles)
 packages(snow)
 packages(htmltools)
-packages(devtools)
 # packages(shinycssloaders)
 
 #packages(RCurl)

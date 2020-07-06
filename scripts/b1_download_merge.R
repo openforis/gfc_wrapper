@@ -4,7 +4,7 @@ proj4string(tiles) <- proj4string(aoi)
 
 tiles <- tiles[aoi,]
 
-download_tiles(tiles,gfcdwn_dir,images = types)
+gfcanalysis::download_tiles(tiles,gfcdwn_dir,images = types,dataset = gfc_dataset)
 
 ### Find the suffix of the associated GFC data for each tile
 tmp         <- data.frame(1:length(tiles),rep("nd",length(tiles)))
@@ -25,7 +25,7 @@ for (n in 1:length(tiles)) {
 df_tiles <- SpatialPolygonsDataFrame(tiles,tmp,match.ID = F)
 rm(tmp)
 
-prefix <- "Hansen_GFC-2018-v1.6"
+prefix <- paste0("Hansen_",gfc_dataset)
 suffix <- df_tiles@data$gfc_suffix
 tilesx <- substr(suffix,2,nchar(suffix)-4)
 

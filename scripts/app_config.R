@@ -1,6 +1,6 @@
 ####################################################################################################
 
-gfcdwn_dir <- paste0(normalizePath("~"),"/downloads/gfc/2018/")
+gfcdwn_dir <- paste0(normalizePath("~"),"/downloads/gfc/2019/")
 rootdir    <- paste0(normalizePath("~"),"/gfc_wrapper/")
 
 scriptdir   <- paste0(rootdir,"scripts/")
@@ -24,11 +24,13 @@ dir.create(tmp_msp,recursive=T,showWarnings = F)
 
 ####################################################################################################
 #################### load hard-coded parameters
-max_year    <- 18
+max_year    <- 19
 spacing     <- 0.011
 offset      <- 0.001
 #proj        <- '+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs'
 proj        <-  '+proj=moll +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m no_defs'
+
+gfc_dataset <- "GFC-2019-v1.7"
 
 ## Set a range of sub-sampling (take a point every xx point)
 classes <- c(100,50,40,30,20,10,5,4,3,2,1)
