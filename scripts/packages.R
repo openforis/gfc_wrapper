@@ -12,7 +12,7 @@ packages <- function(x){
 
 ## Packages to download GFC data
 packages(devtools)
-install_github('azvoleff/gfcanalysis')
+#install_github('azvoleff/gfcanalysis')
 library(gfcanalysis)
 
 ## Packages for geospatial data handling
